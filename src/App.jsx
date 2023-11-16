@@ -7,29 +7,13 @@ import TodoList from "./components/Todo/TodoList";
 
 const initialValue = [
   {
-    id:1,
-    title:'Finish Todo app',
-    completed: true,
-  },
-  {
-    id:2,
-    title:'Do my homework',
+    id: 1,
+    title: "Add a new Todo",
     completed: false,
   },
-  {
-    id:3,
-    title:'Finish Todo app',
-    completed: false,
-  },
-  {
-    id:4,
-    title:'Finish Todo app',
-    completed: false,
-  },
-]
+];
 
-const App = () => {  
-
+const App = () => {
   const [todos, setTodo] = useState(initialValue);
 
   const create = (title) => {
@@ -37,43 +21,65 @@ const App = () => {
       id: Date.now(),
       title,
       completed: false,
-    }
+    };
 
-    setTodo([...todos, newTodo])
-  }
+    setTodo([...todos, newTodo]);
+  };
 
   const update = (id) => {
-    setTodo(todos.map((todo) => todo.id === id ? {...todo, completed: !todo.completed } : todo))
-  }
+    setTodo(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+      ),
+    );
+  };
 
   const remove = (id) => {
-    setTodo(todos.filter((todo) => todo.id !== id))
-  }
+    setTodo(todos.filter((todo) => todo.id !== id));
+  };
 
-  const computed = todos.filter(todo => !todo.completed).length;
+  const computed = todos.filter((todo) => !todo.completed).length;
 
   const clearCompleted = () => {
-    setTodo(todos.filter((todo)=> !todo.completed))
-  }
+    setTodo(todos.filter((todo) => !todo.completed));
+  };
 
-  return(
-    <div className="bg-[url('./assets/images/bg-mobile-light.jpg')] bg-no-repeat bg-contain min-h-screen bg-gray-200">
-      <Header/>
+  const [filter, setFilter] = useState("all");
+
+  const filterTodo = (todofil) => setFilter(todofil);
+
+  const changeFilter = () => {
+    switch (filter) {
+      case "all":
+        return todos;
+      case "active":
+        return todos.filter((todo) => !todo.completed);
+      case "completed":
+        return todos.filter((todo) => todo.completed);
+    }
+  };
+
+  return (
+    <div
+      className="bg-[url('./assets/images/bg-mobile-light.jpg')] bg-no-repeat bg-contain min-h-screen bg-gray-200
+      dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] dark:bg-gray-900 transition duration-300 "
+    >
+      <Header />
       <main className=" container p-4 bg-gra">
-        <TodoCreate create={create}/>
+        <TodoCreate create={create} />
 
-        <TodoList todos={todos} update={update} remove={remove} />
+        <TodoList todos={changeFilter()} update={update} remove={remove} />
 
         <TodoComputed computed={computed} clearCompleted={clearCompleted} />
 
-        <TodoFilter/>
+        <TodoFilter changeFilter={changeFilter} filterTodo={filterTodo} />
       </main>
 
       <footer className="font-semibold text-center text-gray-400 container px-4 mt-8">
         Drag and drop to reoder list
       </footer>
     </div>
-  )
-}
+  );
+};
 
 export default App;
