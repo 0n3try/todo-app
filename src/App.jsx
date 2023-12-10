@@ -29,8 +29,8 @@ const App = () => {
   const update = (id) => {
     setTodo(
       todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      ),
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
     );
   };
 
@@ -61,11 +61,11 @@ const App = () => {
 
   return (
     <div
-      className="bg-[url('./assets/images/bg-mobile-light.jpg')] bg-no-repeat bg-contain min-h-screen bg-gray-200
-      dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] dark:bg-gray-900 transition duration-300 "
+      className="bg-[url('./assets/images/bg-mobile-light.jpg')] bg-no-repeat bg-contain md:bg-cover min-h-screen bg-gray-200
+      dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] dark:bg-gray-900 transition duration-300  "
     >
       <Header />
-      <main className=" container p-4 bg-gra">
+      <main className=" container p-4 mx-auto">
         <TodoCreate create={create} />
 
         <TodoList todos={changeFilter()} update={update} remove={remove} />
