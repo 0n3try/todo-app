@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { DragDropContext } from "@hello-pangea/dnd";
 import Header from "./components/Header";
 import TodoComputed from "./components/Todo/TodoComputed";
 import TodoCreate from "./components/Todo/TodoCreate";
@@ -68,7 +69,9 @@ const App = () => {
       <main className=" container p-4 mx-auto">
         <TodoCreate create={create} />
 
-        <TodoList todos={changeFilter()} update={update} remove={remove} />
+        <DragDropContext>
+          <TodoList todos={changeFilter()} update={update} remove={remove} />
+        </DragDropContext>
 
         <TodoComputed computed={computed} clearCompleted={clearCompleted} />
 
