@@ -8,6 +8,14 @@ import TodoList from "./components/Todo/TodoList";
 
 const initialValue = JSON.parse(localStorage.getItem("todos")) || [];
 
+const reorder = (list, startIndex, endIndex) => {
+  const result = [...list];
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
 const App = () => {
   const [todos, setTodo] = useState(initialValue);
 
@@ -54,6 +62,18 @@ const App = () => {
     }
   };
 
+  const handleDragEnd = (result) => {
+    const { destination, source } = result;
+    if (!destination) return;
+    if (
+      source.index === destination.index &&
+      source.droppableId === destination.droppableId
+    )
+      return;
+
+    setTodo((prevTasks) => reorder(prevTasks, source.index, destination.index));
+  };
+
   return (
     <div
       className="bg-[url('./assets/images/bg-mobile-light.jpg')] bg-no-repeat bg-contain md:bg-cover min-h-screen bg-gray-200
@@ -63,7 +83,7 @@ const App = () => {
       <main className=" container p-4 mx-auto">
         <TodoCreate create={create} />
 
-        <DragDropContext>
+        <DragDropContext onDragEnd={handleDragEnd}>
           <TodoList todos={changeFilter()} update={update} remove={remove} />
         </DragDropContext>
 
