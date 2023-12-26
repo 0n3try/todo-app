@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import TodoItem from "./TodoItem";
 import { Droppable, Draggable } from "@hello-pangea/dnd";
 
 const TodoList = ({ todos, remove, update }) => {
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
   return (
     <Droppable droppableId="value">
       {(provider) => (
